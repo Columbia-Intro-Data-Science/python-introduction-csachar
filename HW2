@@ -1,0 +1,25 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from itertools import product
+from sklearn.decomposition import RandomizedPCA
+from sklearn.datasets import fetch_mldata
+from sklearn.utils import shuffle
+from sklearn import datasets
+%matplotlib inline
+
+digits = datasets.load_digits()
+X_digits = digits.data
+y_digits = digits.target
+# This is equivalent to finding the top two eigenvalues of X^TX and plotting it. 
+pca = RandomizedPCA(n_components=2)
+colors = ['black', 'blue', 'purple', 'yellow', 'white', 'red', 'lime', 'cyan', 'orange', 'gray']
+reduced_data_pca = pca.fit_transform(digits.data)
+for i in range(len(colors)):
+    x = reduced_data_pca[:, 0][digits.target == i]
+    y = reduced_data_pca[:, 1][digits.target == i]
+    plt.scatter(x, y, c=colors[i])
+plt.legend(digits.target_names, bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+plt.xlabel('First Principal Component')
+plt.ylabel('Second Principal Component')
+plt.title("PCA Scatter Plot")
+plt.show()
